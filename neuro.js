@@ -1,10 +1,9 @@
 var Neural1 = function (size, alpha) {
     this.weights = [];
     for (var i = 0; i < size; i++) {
-        this.weights.push((Math.random()-0.5 ));
+        this.weights.push((Math.random()-0.5));
     }
-    ;
-    this.alpha = alpha || Math.random() * 10+1
+    this.alpha = alpha || Math.random() * 10+1;
 }
 Neural1.prototype.calculate = function (vals) {
     var res = 0;
@@ -21,7 +20,7 @@ Neural1.prototype.calculate = function (vals) {
 var NeuralSumm = function (size) {
     this.weights = [];
     for (var i = 0; i < size; i++) {
-        this.weights.push((Math.random() + 0.5) / size);
+        this.weights.push((Math.random() + 0.5));
     }
     ;
 }
@@ -44,10 +43,10 @@ var NeuralNetwork = function () {
         props = props || {};
         props.layersCount = props.layersCount || 3;
         props.layersSize = props.layersSize || self.inputSize *3;
-        props.maxIter = props.maxIter || 1000000;
+        props.maxIter = props.maxIter || 10000000;
         props.logStep = props.logStep || 10000;
         props.maxError = props.maxError || 0.01;
-        self.lernSpeed = props.lernSpeed || 0.02;
+        self.lernSpeed = props.lernSpeed || 0.08;
 
         self.neuralNetwork = [];
 
@@ -69,7 +68,7 @@ var NeuralNetwork = function () {
             var dataIndex = Math.floor(Math.random() * self.data.length);
             var res = self.run(self.data[dataIndex].input);
             var error = res * (1 - res) * (self.data[dataIndex].output[0] - res);
-            errToExit = errToExit * 0.4 + Math.abs(self.data[dataIndex].output[0] - res);
+            errToExit = errToExit * 0.5 + Math.abs(self.data[dataIndex].output[0] - res);
             self.neuralNetwork[self.neuralNetwork.length - 1][0].q = error * self.neuralNetwork[self.neuralNetwork.length - 1][0].alpha;
             back();
 
@@ -77,11 +76,12 @@ var NeuralNetwork = function () {
                 console.log(self.data[dataIndex].output[0],(self.data[dataIndex].output[0]- res) );
             }
             if (errToExit < props.maxError) {
-                console.log('===== end ===='+i);
                 break;
             }
 
         };
+
+        console.log('===== end ===='+i);
     }
     self.run = function (input) {
         self.neuralNetwork[0] = input;
